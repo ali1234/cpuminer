@@ -36,6 +36,7 @@
 #include <curl/curl.h>
 #include "compat.h"
 #include "miner.h"
+#include "yacoin.h"
 
 #define PROGRAM_NAME		"minerd"
 #define DEF_RPC_URL		"http://127.0.0.1:9332/"
@@ -132,6 +133,7 @@ pthread_mutex_t stats_lock;
 static unsigned long accepted_count = 0L;
 static unsigned long rejected_count = 0L;
 double *thr_hashrates;
+
 
 #ifdef HAVE_GETOPT_LONG
 #include <getopt.h>
@@ -633,7 +635,7 @@ static void *miner_thread(void *userdata)
 			break;
 
 		case ALGO_SCRYPT_JANE:
-			rc = scanhash_scrypt_jane(thr_id, work.data, work.target,
+			rc = scanhash_yacoin(thr_id, work.data, work.target,
 			                     max_nonce, &hashes_done);
 			break;
 
@@ -1151,3 +1153,4 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
